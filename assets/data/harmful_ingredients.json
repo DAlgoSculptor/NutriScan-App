@@ -1,0 +1,184 @@
+{
+  "harmful_ingredients": [
+    {
+      "name": "Tartrazine",
+      "aliases": ["E102", "Yellow 5", "FD&C Yellow No. 5"],
+      "risk_level": "High",
+      "category": "Artificial Color",
+      "description": "Synthetic yellow dye that can cause hyperactivity and allergic reactions",
+      "side_effects": ["Hyperactivity in children", "Allergic reactions", "Asthma", "Skin rashes"],
+      "found_in": ["Candies", "Soft drinks", "Processed foods"]
+    },
+    {
+      "name": "Sunset Yellow FCF",
+      "aliases": ["E110", "Yellow 6", "FD&C Yellow No. 6"],
+      "risk_level": "High",
+      "category": "Artificial Color",
+      "description": "Orange-yellow synthetic dye linked to hyperactivity and allergic reactions",
+      "side_effects": ["Hyperactivity", "Allergic reactions", "Asthma", "Behavioral issues"],
+      "found_in": ["Orange drinks", "Cereals", "Snack foods"]
+    },
+    {
+      "name": "Allura Red AC",
+      "aliases": ["E129", "Red 40", "FD&C Red No. 40"],
+      "risk_level": "High",
+      "category": "Artificial Color",
+      "description": "Red synthetic dye that may cause hyperactivity and allergic reactions",
+      "side_effects": ["Hyperactivity", "Allergic reactions", "Behavioral problems"],
+      "found_in": ["Red candies", "Beverages", "Baked goods"]
+    },
+    {
+      "name": "Brilliant Blue FCF",
+      "aliases": ["E133", "Blue 1", "FD&C Blue No. 1"],
+      "risk_level": "Moderate",
+      "category": "Artificial Color",
+      "description": "Blue synthetic dye that may cause allergic reactions in sensitive individuals",
+      "side_effects": ["Allergic reactions", "Skin sensitivity"],
+      "found_in": ["Blue candies", "Ice cream", "Beverages"]
+    },
+    {
+      "name": "Sodium Nitrite",
+      "aliases": ["E250", "Sodium Nitrite"],
+      "risk_level": "High",
+      "category": "Preservative",
+      "description": "Preservative that can form cancer-causing nitrosamines",
+      "side_effects": ["Increased cancer risk", "Methemoglobinemia", "Headaches"],
+      "found_in": ["Processed meats", "Hot dogs", "Bacon"]
+    },
+    {
+      "name": "Sodium Nitrate",
+      "aliases": ["E251", "Sodium Nitrate"],
+      "risk_level": "High",
+      "category": "Preservative",
+      "description": "Preservative that converts to nitrite and can form nitrosamines",
+      "side_effects": ["Cancer risk", "Cardiovascular issues", "Methemoglobinemia"],
+      "found_in": ["Cured meats", "Processed foods"]
+    },
+    {
+      "name": "Monosodium Glutamate",
+      "aliases": ["MSG", "E621", "Glutamic Acid"],
+      "risk_level": "Moderate",
+      "category": "Flavor Enhancer",
+      "description": "Flavor enhancer that can cause sensitivity reactions in some people",
+      "side_effects": ["Headaches", "Nausea", "Sweating", "Chest pain"],
+      "found_in": ["Chinese food", "Processed snacks", "Soup mixes"]
+    },
+    {
+      "name": "Aspartame",
+      "aliases": ["E951", "NutraSweet", "Equal"],
+      "risk_level": "High",
+      "category": "Artificial Sweetener",
+      "description": "Artificial sweetener linked to headaches and neurological issues",
+      "side_effects": ["Headaches", "Dizziness", "Seizures", "Mood changes"],
+      "found_in": ["Diet sodas", "Sugar-free gum", "Diet foods"]
+    },
+    {
+      "name": "Acesulfame Potassium",
+      "aliases": ["E950", "Acesulfame K", "Ace-K"],
+      "risk_level": "Moderate",
+      "category": "Artificial Sweetener",
+      "description": "Artificial sweetener that may have carcinogenic properties",
+      "side_effects": ["Potential cancer risk", "Headaches"],
+      "found_in": ["Diet drinks", "Sugar-free products", "Baked goods"]
+    },
+    {
+      "name": "Sucralose",
+      "aliases": ["E955", "Splenda"],
+      "risk_level": "Moderate",
+      "category": "Artificial Sweetener",
+      "description": "Artificial sweetener that may affect gut bacteria",
+      "side_effects": ["Gut microbiome disruption", "Digestive issues"],
+      "found_in": ["Diet foods", "Sugar-free drinks", "Low-calorie products"]
+    },
+    {
+      "name": "Butylated Hydroxytoluene",
+      "aliases": ["BHT", "E321"],
+      "risk_level": "High",
+      "category": "Antioxidant",
+      "description": "Synthetic antioxidant that may be carcinogenic",
+      "side_effects": ["Cancer risk", "Liver damage", "Allergic reactions"],
+      "found_in": ["Cereals", "Chewing gum", "Processed foods"]
+    },
+    {
+      "name": "Butylated Hydroxyanisole",
+      "aliases": ["BHA", "E320"],
+      "risk_level": "High",
+      "category": "Antioxidant",
+      "description": "Synthetic antioxidant classified as possibly carcinogenic",
+      "side_effects": ["Cancer risk", "Liver damage", "Hormonal disruption"],
+      "found_in": ["Processed foods", "Cereals", "Snack foods"]
+    },
+    {
+      "name": "Propyl Gallate",
+      "aliases": ["E310"],
+      "risk_level": "Moderate",
+      "category": "Antioxidant",
+      "description": "Antioxidant that may cause allergic reactions and liver problems",
+      "side_effects": ["Liver toxicity", "Allergic reactions", "Stomach irritation"],
+      "found_in": ["Oils", "Meat products", "Chewing gum"]
+    },
+    {
+      "name": "Sodium Benzoate",
+      "aliases": ["E211"],
+      "risk_level": "Moderate",
+      "category": "Preservative",
+      "description": "Preservative that can form benzene (carcinogen) when combined with Vitamin C",
+      "side_effects": ["Cancer risk (when with Vitamin C)", "Hyperactivity", "Allergic reactions"],
+      "found_in": ["Soft drinks", "Fruit juices", "Pickles"]
+    },
+    {
+      "name": "Potassium Bromate",
+      "aliases": ["E924"],
+      "risk_level": "High",
+      "category": "Flour Treatment Agent",
+      "description": "Flour improver that is carcinogenic and banned in many countries",
+      "side_effects": ["Cancer", "Kidney damage", "Nervous system damage"],
+      "found_in": ["Bread", "Baked goods", "Pizza dough"]
+    },
+    {
+      "name": "Propylene Glycol",
+      "aliases": ["E1520"],
+      "risk_level": "Caution",
+      "category": "Emulsifier",
+      "description": "Solvent and emulsifier that may cause skin and eye irritation",
+      "side_effects": ["Skin irritation", "Eye irritation", "Respiratory issues"],
+      "found_in": ["Ice cream", "Salad dressings", "Baked goods"]
+    },
+    {
+      "name": "High Fructose Corn Syrup",
+      "aliases": ["HFCS", "Corn Syrup"],
+      "risk_level": "Moderate",
+      "category": "Sweetener",
+      "description": "Processed sweetener linked to obesity and metabolic disorders",
+      "side_effects": ["Obesity", "Diabetes", "Liver damage", "Heart disease"],
+      "found_in": ["Soft drinks", "Processed foods", "Candy"]
+    },
+    {
+      "name": "Partially Hydrogenated Oil",
+      "aliases": ["Trans Fat", "Hydrogenated Fat"],
+      "risk_level": "High",
+      "category": "Fat",
+      "description": "Artificial trans fat that increases heart disease risk",
+      "side_effects": ["Heart disease", "Stroke", "Diabetes", "Inflammation"],
+      "found_in": ["Margarine", "Fried foods", "Processed snacks"]
+    },
+    {
+      "name": "Carrageenan",
+      "aliases": ["E407"],
+      "risk_level": "Moderate",
+      "category": "Thickener",
+      "description": "Seaweed extract that may cause digestive inflammation",
+      "side_effects": ["Digestive inflammation", "Bloating", "Diarrhea"],
+      "found_in": ["Dairy alternatives", "Processed meats", "Ice cream"]
+    },
+    {
+      "name": "Caramel Color IV",
+      "aliases": ["E150d", "Ammonia Caramel"],
+      "risk_level": "Moderate",
+      "category": "Coloring",
+      "description": "Caramel coloring that may contain carcinogenic compounds",
+      "side_effects": ["Potential cancer risk", "Immune system suppression"],
+      "found_in": ["Cola drinks", "Soy sauce", "Baked goods"]
+    }
+  ]
+}
