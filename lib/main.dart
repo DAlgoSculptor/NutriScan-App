@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'theme/app_theme.dart';
+import 'package:flutter/services.dart';
 import 'screens/home_screen.dart';
 import 'screens/scan_screen.dart';
 import 'screens/about_screen.dart';
 import 'screens/contact_screen.dart';
+import 'screens/splash_screen.dart';
+import 'theme/app_theme.dart';
 import 'services/ingredient_database_service.dart';
 
 void main() async {
@@ -30,7 +32,7 @@ class NutriScanApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: const MainNavigationScreen(),
+      home: const SplashScreen(nextScreen: MainNavigationScreen()),
       routes: {
         '/home': (context) => const MainNavigationScreen(),
         '/scan': (context) => const ScanScreen(),
@@ -106,30 +108,25 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
-              offset: const Offset(0, -2),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: _onTabTapped,
-          type: BottomNavigationBarType.fixed,
-          items: _navigationItems.asMap().entries.map((entry) {
-            final index = entry.key;
-            final item = entry.value;
-            final isSelected = index == _currentIndex;
-            
-            return BottomNavigationBarItem(
-              icon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  isSelected ? item.activeIcon : item.icon,
-                  key: ValueKey('$index-$isSelected'),
-                ),
-              ),
-              label: item.label,
-            );
-          }).toList(),
+          items: _navigationItems.map((item) => BottomNavigationBarItem(
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              child: _currentIndex == _navigationItems.indexOf(item)
+                  ? Icon(item.activeIcon, key: ValueKey('active-${item.label}'))
+                  : Icon(item.icon, key: ValueKey('inactive-${item.label}')),
+            ),
+            label: item.label,
+          )).toList(),
         ),
       ),
     );

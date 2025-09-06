@@ -146,7 +146,7 @@ class HomeScreen extends StatelessWidget {
         Expanded(
           child: StatsCard(
             title: 'Ingredients',
-            value: '20+',
+            value: '4000+',
             subtitle: 'Harmful substances tracked',
             icon: Icons.warning_rounded,
             color: AppTheme.moderateRisk,

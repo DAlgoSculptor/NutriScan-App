@@ -179,6 +179,168 @@
       "description": "Caramel coloring that may contain carcinogenic compounds",
       "side_effects": ["Potential cancer risk", "Immune system suppression"],
       "found_in": ["Cola drinks", "Soy sauce", "Baked goods"]
+    },
+    {
+      "name": "Saccharin",
+      "aliases": ["E954", "Sweet'N Low"],
+      "risk_level": "Moderate",
+      "category": "Artificial Sweetener",
+      "description": "Artificial sweetener linked to bladder cancer in animal studies",
+      "side_effects": ["Potential cancer risk", "Digestive issues", "Allergic reactions"],
+      "found_in": ["Diet products", "Tabletop sweeteners", "Sugar-free foods"]
+    },
+    {
+      "name": "Polysorbate 80",
+      "aliases": ["E433", "Tween 80"],
+      "risk_level": "Moderate",
+      "category": "Emulsifier",
+      "description": "Emulsifier that may disrupt gut barrier and cause inflammation",
+      "side_effects": ["Gut inflammation", "Immune system disruption", "Allergic reactions"],
+      "found_in": ["Ice cream", "Salad dressings", "Vaccines"]
+    },
+    {
+      "name": "Sodium Sulfite",
+      "aliases": ["E221"],
+      "risk_level": "Moderate",
+      "category": "Preservative",
+      "description": "Preservative that can trigger severe asthma attacks in sensitive individuals",
+      "side_effects": ["Severe asthma attacks", "Allergic reactions", "Breathing difficulties"],
+      "found_in": ["Dried fruits", "Wine", "Processed potatoes"]
+    },
+    {
+      "name": "Potassium Sorbate",
+      "aliases": ["E202"],
+      "risk_level": "Low",
+      "category": "Preservative",
+      "description": "Preservative that may cause skin irritation and allergic reactions",
+      "side_effects": ["Skin irritation", "Allergic reactions", "Digestive upset"],
+      "found_in": ["Cheese", "Wine", "Dried fruits"]
+    },
+    {
+      "name": "Calcium Propionate",
+      "aliases": ["E282"],
+      "risk_level": "Moderate",
+      "category": "Preservative",
+      "description": "Mold inhibitor that may cause hyperactivity and learning difficulties",
+      "side_effects": ["Hyperactivity", "Learning difficulties", "Sleep disturbances"],
+      "found_in": ["Bread", "Baked goods", "Processed cheese"]
+    },
+    {
+      "name": "TBHQ",
+      "aliases": ["E319", "Tertiary Butylhydroquinone"],
+      "risk_level": "High",
+      "category": "Antioxidant",
+      "description": "Synthetic antioxidant that may cause nausea and ringing in ears",
+      "side_effects": ["Nausea", "Vomiting", "Tinnitus", "Delirium"],
+      "found_in": ["Processed foods", "Crackers", "Fast food"]
+    },
+    {
+      "name": "Aluminum Sulfate",
+      "aliases": ["E520"],
+      "risk_level": "High",
+      "category": "Firming Agent",
+      "description": "Aluminum compound linked to neurological disorders",
+      "side_effects": ["Neurological damage", "Alzheimer's risk", "Bone disorders"],
+      "found_in": ["Pickles", "Processed foods", "Baking powder"]
+    },
+    {
+      "name": "Sodium Aluminum Phosphate",
+      "aliases": ["E541", "SALP"],
+      "risk_level": "High",
+      "category": "Leavening Agent",
+      "description": "Aluminum-containing compound that may accumulate in the brain",
+      "side_effects": ["Brain accumulation", "Neurological issues", "Bone problems"],
+      "found_in": ["Baking mixes", "Pancake mixes", "Processed cheese"]
+    },
+    {
+      "name": "Phosphoric Acid",
+      "aliases": ["E338"],
+      "risk_level": "Moderate",
+      "category": "Acidulant",
+      "description": "Acid that can interfere with calcium absorption and weaken bones",
+      "side_effects": ["Bone weakening", "Tooth enamel erosion", "Kidney problems"],
+      "found_in": ["Cola drinks", "Processed foods", "Flavored waters"]
+    },
+    {
+      "name": "Sodium Metabisulfite",
+      "aliases": ["E223"],
+      "risk_level": "Moderate",
+      "category": "Preservative",
+      "description": "Sulfite preservative that can trigger severe allergic reactions",
+      "side_effects": ["Severe allergic reactions", "Asthma attacks", "Skin reactions"],
+      "found_in": ["Dried fruits", "Wine", "Potato products"]
+    },
+    {
+      "name": "Erythrosine",
+      "aliases": ["E127", "Red 3", "FD&C Red No. 3"],
+      "risk_level": "High",
+      "category": "Artificial Color",
+      "description": "Red dye that may cause thyroid tumors and hyperactivity",
+      "side_effects": ["Thyroid tumors", "Hyperactivity", "Behavioral changes"],
+      "found_in": ["Candies", "Baked goods", "Processed foods"]
+    },
+    {
+      "name": "Azodicarbonamide",
+      "aliases": ["E927a", "ADA"],
+      "risk_level": "High",
+      "category": "Flour Treatment Agent",
+      "description": "Dough conditioner that breaks down into carcinogenic compounds",
+      "side_effects": ["Cancer risk", "Respiratory issues", "Allergic reactions"],
+      "found_in": ["Bread", "Baked goods", "Yoga mats"]
+    },
+    {
+      "name": "Brominated Vegetable Oil",
+      "aliases": ["BVO", "E443"],
+      "risk_level": "High",
+      "category": "Emulsifier",
+      "description": "Flame retardant chemical used in sodas, linked to neurological problems",
+      "side_effects": ["Neurological damage", "Memory loss", "Skin lesions"],
+      "found_in": ["Citrus sodas", "Sports drinks", "Flame retardants"]
+    },
+    {
+      "name": "Recombinant Bovine Growth Hormone",
+      "aliases": ["rBGH", "rBST"],
+      "risk_level": "High",
+      "category": "Growth Hormone",
+      "description": "Synthetic hormone that may increase cancer risk",
+      "side_effects": ["Increased cancer risk", "Hormonal disruption", "Antibiotic resistance"],
+      "found_in": ["Conventional dairy products", "Milk", "Cheese"]
+    },
+    {
+      "name": "Olestra",
+      "aliases": ["Olean"],
+      "risk_level": "Moderate",
+      "category": "Fat Substitute",
+      "description": "Artificial fat that blocks absorption of essential vitamins",
+      "side_effects": ["Vitamin deficiency", "Digestive problems", "Anal leakage"],
+      "found_in": ["Fat-free chips", "Diet snacks"]
+    },
+    {
+      "name": "Potassium Chloride",
+      "aliases": ["E508"],
+      "risk_level": "Moderate",
+      "category": "Salt Substitute",
+      "description": "Salt substitute that can cause heart rhythm problems in high doses",
+      "side_effects": ["Heart rhythm issues", "Muscle weakness", "Kidney problems"],
+      "found_in": ["Low-sodium foods", "Salt substitutes", "Processed foods"]
+    },
+    {
+      "name": "Disodium Inosinate",
+      "aliases": ["E631"],
+      "risk_level": "Moderate",
+      "category": "Flavor Enhancer",
+      "description": "Flavor enhancer often combined with MSG that may cause similar reactions",
+      "side_effects": ["Headaches", "Nausea", "Allergic reactions"],
+      "found_in": ["Instant noodles", "Snack foods", "Processed meats"]
+    },
+    {
+      "name": "Disodium Guanylate",
+      "aliases": ["E627"],
+      "risk_level": "Moderate",
+      "category": "Flavor Enhancer",
+      "description": "Flavor enhancer that works synergistically with MSG",
+      "side_effects": ["MSG-like reactions", "Headaches", "Nausea"],
+      "found_in": ["Instant foods", "Chips", "Seasoning mixes"]
     }
   ]
 }

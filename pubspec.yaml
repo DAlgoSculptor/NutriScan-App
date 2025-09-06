@@ -59,6 +59,11 @@ dependencies:
   
   # JSON handling
   json_annotation: ^4.8.1
+  
+  # Animations
+  animated_splash_screen: ^1.3.0
+  lottie: ^3.1.0
+  page_transition: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -69,6 +74,7 @@ dev_dependencies:
   # Code generation
   build_runner: ^2.4.8
   json_serializable: ^6.7.1
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -84,7 +90,8 @@ flutter:
   # Assets
   assets:
     - assets/data/
-    - assets/images/
+    - assets/images/app_icon.png
+    - assets/animations/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

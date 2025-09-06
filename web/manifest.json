@@ -1,6 +1,6 @@
 {
-    "name": "nutriscan",
-    "short_name": "nutriscan",
+    "name": "NutriScan",
+    "short_name": "NutriScan",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
