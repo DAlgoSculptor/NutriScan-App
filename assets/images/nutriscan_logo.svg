@@ -1,0 +1,38 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <radialGradient id="scanGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#81C784" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4CAF50" stop-opacity="0.2"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="512" cy="512" r="512" fill="white"/>
+  
+  <!-- Scanner Ring -->
+  <circle cx="512" cy="512" r="380" fill="none" stroke="url(#leafGradient)" stroke-width="40" stroke-dasharray="10,20"/>
+  
+  <!-- Leaf/Scan Symbol -->
+  <g transform="translate(512,512) scale(1.2)">
+    <!-- Leaf Base -->
+    <path d="M0,-200 C100,-150 150,-50 100,50 C50,150 -50,200 -100,100 C-150,0 -100,-100 0,-200 Z" fill="url(#leafGradient)"/>
+    
+    <!-- Scan Lines -->
+    <g stroke="#81C784" stroke-width="8" stroke-opacity="0.7">
+      <line x1="-80" y1="-120" x2="80" y2="-80" stroke-linecap="round"/>
+      <line x1="-100" y1="-60" x2="60" y2="-20" stroke-linecap="round"/>
+      <line x1="-90" y1="0" x2="90" y2="40" stroke-linecap="round"/>
+      <line x1="-70" y1="60" x2="70" y2="100" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Center Dot -->
+    <circle cx="0" cy="0" r="25" fill="#2E7D32"/>
+  </g>
+  
+  <!-- Outer Glow Effect -->
+  <circle cx="512" cy="512" r="450" fill="url(#scanGradient)"/>
+</svg>

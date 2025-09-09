@@ -1,0 +1,20 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="512" cy="512" r="512" fill="white"/>
+  
+  <!-- Leaf Shape -->
+  <path d="M512,180 C620,250 680,380 620,500 C560,620 420,680 300,620 C220,560 160,420 220,300 C280,220 420,160 512,180 Z" 
+        fill="#4CAF50"/>
+  
+  <!-- Scan Lines -->
+  <line x1="320" y1="320" x2="700" y2="320" stroke="#E8F5E9" stroke-width="15" stroke-linecap="round"/>
+  <line x1="280" y1="420" x2="740" y2="420" stroke="#E8F5E9" stroke-width="15" stroke-linecap="round"/>
+  <line x1="300" y1="520" x2="720" y2="520" stroke="#E8F5E9" stroke-width="15" stroke-linecap="round"/>
+  <line x1="320" y1="620" x2="700" y2="620" stroke="#E8F5E9" stroke-width="15" stroke-linecap="round"/>
+  
+  <!-- Center Dot -->
+  <circle cx="512" cy="512" r="35" fill="#2E7D32"/>
+  
+  <!-- Outer Ring -->
+  <circle cx="512" cy="512" r="450" fill="none" stroke="#4CAF50" stroke-width="8" stroke-opacity="0.3"/>
+</svg>

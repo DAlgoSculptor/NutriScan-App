@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'screens/home_screen.dart';
 import 'screens/scan_screen.dart';
 import 'screens/about_screen.dart';
-import 'screens/contact_screen.dart';
 import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 import 'services/ingredient_database_service.dart';
@@ -37,17 +35,24 @@ class NutriScanApp extends StatelessWidget {
         '/home': (context) => const MainNavigationScreen(),
         '/scan': (context) => const ScanScreen(),
         '/about': (context) => const AboutScreen(),
-        '/contact': (context) => const ContactScreen(),
       },
     );
   }
 }
 
 class MainNavigationScreen extends StatefulWidget {
+  // Add a static reference to the state
+  static _MainNavigationScreenState? _instance;
+
   const MainNavigationScreen({super.key});
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+
+  // Public method to change tabs from anywhere in the app
+  static void changeTab(int index) {
+    _instance?.onTabTapped(index);
+  }
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
@@ -58,35 +63,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const HomeScreen(),
     const ScanScreen(),
     const AboutScreen(),
-    const ContactScreen(),
+    // Removed ContactScreen from the list
   ];
 
-  final List<NavigationItem> _navigationItems = [
-    NavigationItem(
-      icon: Icons.home_rounded,
-      activeIcon: Icons.home_rounded,
-      label: 'Home',
-    ),
-    NavigationItem(
-      icon: Icons.qr_code_scanner_rounded,
-      activeIcon: Icons.qr_code_scanner_rounded,
-      label: 'Scan',
-    ),
-    NavigationItem(
-      icon: Icons.info_outline_rounded,
-      activeIcon: Icons.info_rounded,
-      label: 'About',
-    ),
-    NavigationItem(
-      icon: Icons.contact_support_outlined,
-      activeIcon: Icons.contact_support_rounded,
-      label: 'Contact',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Set the instance when the state is initialized
+    MainNavigationScreen._instance = this;
+  }
 
   @override
   void dispose() {
     _pageController.dispose();
+    // Clear the instance when the state is disposed
+    MainNavigationScreen._instance = null;
     super.dispose();
   }
 
@@ -95,6 +86,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
+        // Disable scrolling between pages by setting physics to NeverScrollableScrollPhysics
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
@@ -102,37 +95,151 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         },
         children: _screens,
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none, // Allow drawing outside bounds
+        children: [
+          Container(
+            height: 80,
+            decoration: BoxDecoration(
+              color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -5),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: _onTabTapped,
-          items: _navigationItems.map((item) => BottomNavigationBarItem(
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-              child: _currentIndex == _navigationItems.indexOf(item)
-                  ? Icon(item.activeIcon, key: ValueKey('active-${item.label}'))
-                  : Icon(item.icon, key: ValueKey('inactive-${item.label}')),
+            child: Stack(
+              children: [
+                // Regular navigation items (Home, About)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Home button (left)
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => onTabTapped(0),
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 80,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                _currentIndex == 0 ? Icons.home_rounded : Icons.home_rounded,
+                                color: _currentIndex == 0 
+                                    ? AppTheme.primaryGreen 
+                                    : AppTheme.mediumGray,
+                                size: 28,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Home',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: _currentIndex == 0 
+                                      ? FontWeight.w600 
+                                      : FontWeight.normal,
+                                  color: _currentIndex == 0 
+                                      ? AppTheme.primaryGreen 
+                                      : AppTheme.mediumGray,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+                    // Spacer for center position
+                    const Expanded(child: SizedBox()),
+                    
+                    // About button (right)
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => onTabTapped(2),
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 80,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                _currentIndex == 2 
+                                    ? Icons.info_rounded 
+                                    : Icons.info_outline_rounded,
+                                color: _currentIndex == 2 
+                                    ? AppTheme.primaryGreen 
+                                    : AppTheme.mediumGray,
+                                size: 28,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'About',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: _currentIndex == 2 
+                                      ? FontWeight.w600 
+                                      : FontWeight.normal,
+                                  color: _currentIndex == 2 
+                                      ? AppTheme.primaryGreen 
+                                      : AppTheme.mediumGray,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            label: item.label,
-          )).toList(),
-        ),
+          ),
+          
+          // Floating Scan button (without animations)
+          Positioned(
+            top: -25, // Lifted higher for floating effect
+            left: 0,
+            right: 0,
+            child: Center(
+              child: GestureDetector(
+                onTap: () => onTabTapped(1),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryGreen,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primaryGreen.withOpacity(0.6),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                      BoxShadow(
+                        color: AppTheme.primaryGreen.withOpacity(0.4),
+                        blurRadius: 30,
+                        offset: const Offset(0, 15),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.qr_code_scanner_rounded,
+                    color: Colors.white,
+                    size: 44,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _onTabTapped(int index) {
+  // Public method to change tabs
+  void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });

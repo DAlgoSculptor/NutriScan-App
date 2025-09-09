@@ -1,0 +1,44 @@
+NutriScan App Icon Design Specification
+=====================================
+
+Design Concept:
+- A modern, clean representation of health and nutrition
+- Incorporates both leaf (nature/health) and scanning (technology) elements
+- Uses the brand colors: #4CAF50 (primary green) and #2E7D32 (dark green)
+
+Elements:
+1. Base Shape: Circle (standard for app icons)
+2. Main Symbol: Abstract leaf shape with scanning lines
+3. Color Scheme:
+   - Primary: #4CAF50 (vibrant green)
+   - Secondary: #2E7D32 (deep green)
+   - Accent: #E8F5E9 (light green for scan lines)
+   - Background: White
+
+Detailed Design:
+- Background: Solid white circle
+- Leaf Shape: Abstract leaf in gradient from #4CAF50 to #2E7D32
+- Scan Lines: 4 horizontal lines in #E8F5E9, representing scanning action
+- Center Element: Small dark green circle representing the core/nucleus
+- Glow Effect: Subtle radial gradient for depth
+
+Size Requirements:
+- Create multiple sizes for different devices:
+  - 1024x1024 (base)
+  - 512x512
+  - 256x256
+  - 192x192
+  - 180x180
+  - 144x144
+  - 120x120
+  - 96x96
+  - 72x72
+  - 48x48
+  - 36x36
+
+Implementation Steps:
+1. Open the new_app_icon.svg file in a vector editor
+2. Export as PNG at 1024x1024 resolution
+3. Use an icon generator tool to create all required sizes
+4. Replace the current app_icon.png with the new design
+5. Run 'flutter pub run flutter_launcher_icons' to generate all icons

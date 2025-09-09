@@ -29,7 +29,7 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primaryGreen,
       secondary: accentGreen,
-      surface: Colors.white,
+      surface: Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
       background: backgroundColor,
       error: highRisk,
       onPrimary: Colors.white,
@@ -51,7 +51,7 @@ class AppTheme {
     ),
 
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
       selectedItemColor: primaryGreen,
       unselectedItemColor: mediumGray,
       type: BottomNavigationBarType.fixed,
@@ -62,20 +62,20 @@ class AppTheme {
     cardTheme: CardTheme(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
-      color: Colors.white,
+      color: const Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
       shadowColor: Colors.black.withOpacity(0.1),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryGreen,
-        foregroundColor: Colors.white,
-        elevation: 2,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        foregroundColor: Colors.white, // Keep this for contrast on green buttons
+        elevation: 4,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -88,9 +88,9 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryGreen,
         side: const BorderSide(color: primaryGreen, width: 2),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -113,79 +113,82 @@ class AppTheme {
       filled: true,
       fillColor: lightGray.withOpacity(0.3),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: lightGray.withOpacity(0.5)),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: primaryGreen, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: highRisk, width: 2),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     ),
 
     textTheme: const TextTheme(
       displayLarge: TextStyle(
-        fontSize: 32,
+        fontSize: 36,
         fontWeight: FontWeight.bold,
         color: darkGray,
       ),
       displayMedium: TextStyle(
-        fontSize: 28,
+        fontSize: 32,
         fontWeight: FontWeight.bold,
         color: darkGray,
       ),
       displaySmall: TextStyle(
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: FontWeight.bold,
         color: darkGray,
       ),
       headlineLarge: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
         color: darkGray,
       ),
       headlineMedium: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
         color: darkGray,
       ),
       headlineSmall: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: darkGray,
+      ),
+      titleLarge: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
         color: darkGray,
       ),
-      titleLarge: TextStyle(
+      titleMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        color: darkGray,
-      ),
-      titleMedium: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
         color: darkGray,
       ),
       bodyLarge: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: darkGray,
+        height: 1.5,
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: FontWeight.normal,
         color: mediumGray,
+        height: 1.4,
       ),
       bodySmall: TextStyle(
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: FontWeight.normal,
         color: mediumGray,
+        height: 1.4,
       ),
     ),
 
@@ -249,7 +252,7 @@ class AppTheme {
     cardTheme: CardTheme(
       elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       color: const Color(0xFF1E1E1E),
       shadowColor: Colors.black.withOpacity(0.3),
@@ -259,10 +262,10 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: lightGreen,
         foregroundColor: darkGray,
-        elevation: 2,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        elevation: 4,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -275,9 +278,9 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         foregroundColor: lightGreen,
         side: const BorderSide(color: lightGreen, width: 2),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -290,79 +293,82 @@ class AppTheme {
       filled: true,
       fillColor: Colors.grey[800],
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: Colors.grey[600]!),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: lightGreen, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: highRisk, width: 2),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     ),
 
     textTheme: const TextTheme(
       displayLarge: TextStyle(
-        fontSize: 32,
+        fontSize: 36,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
       displayMedium: TextStyle(
-        fontSize: 28,
+        fontSize: 32,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
       displaySmall: TextStyle(
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
       headlineLarge: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
       headlineMedium: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
       headlineSmall: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),
+      titleLarge: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
         color: Colors.white,
       ),
-      titleLarge: TextStyle(
+      titleMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        color: Colors.white,
-      ),
-      titleMedium: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
       bodyLarge: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: Colors.white,
+        height: 1.5,
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: FontWeight.normal,
         color: Colors.grey,
+        height: 1.4,
       ),
       bodySmall: TextStyle(
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: FontWeight.normal,
         color: Colors.grey,
+        height: 1.4,
       ),
     ),
   );

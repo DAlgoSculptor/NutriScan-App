@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'dart:math' as math;
 import '../theme/app_theme.dart';
+import '../theme/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   final Widget nextScreen;
@@ -22,20 +23,22 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _backgroundController;
   late AnimationController _logoController;
   late AnimationController _textController;
-  late AnimationController _particlesController;
-  late AnimationController _glowController;
+  late AnimationController _scannerController;
+  late AnimationController _molecularController;
+  late AnimationController _ingredientController;
+  late AnimationController _healthController;
   
   // Animations
   late Animation<double> _backgroundAnimation;
   late Animation<double> _logoScaleAnimation;
-  late Animation<double> _logoRotationAnimation;
   late Animation<double> _logoOpacityAnimation;
   late Animation<Offset> _logoSlideAnimation;
   late Animation<Offset> _textSlideAnimation;
   late Animation<double> _textFadeAnimation;
-  late Animation<double> _particlesAnimation;
-  late Animation<double> _glowAnimation;
-  late Animation<Color?> _backgroundColorAnimation;
+  late Animation<double> _scannerAnimation;
+  late Animation<double> _molecularAnimation;
+  late Animation<double> _ingredientAnimation;
+  late Animation<double> _healthPulseAnimation;
 
   // State variables
   bool _showSecondaryText = false;
@@ -51,13 +54,13 @@ class _SplashScreenState extends State<SplashScreen>
   void _initializeAnimations() {
     // Master controller for overall timing
     _masterController = AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(milliseconds: 5000),
       vsync: this,
     );
 
     // Individual controllers with safe bounds
     _backgroundController = AnimationController(
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
     
@@ -71,34 +74,42 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
-    _particlesController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
+    _scannerController = AnimationController(
+      duration: const Duration(milliseconds: 2500),
       vsync: this,
     );
 
-    _glowController = AnimationController(
+    _molecularController = AnimationController(
       duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+
+    _ingredientController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    
+    _healthController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
 
     // Safe animations with clamped values
     _backgroundAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _backgroundController, curve: Curves.easeInOutQuart)
+      CurvedAnimation(parent: _backgroundController, curve: Curves.easeInOut)
     );
 
-    _backgroundColorAnimation = ColorTween(
-      begin: AppTheme.primaryGreen,
-      end: Colors.teal.shade600,
-    ).animate(_backgroundController);
-
-    // Simplified logo scale animation to avoid TweenSequence issues
-    _logoScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.elasticOut)
-    );
-
-    _logoRotationAnimation = Tween<double>(begin: -0.2, end: 0.0).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.easeOut)
-    );
+    // Logo scale animation with bounce effect
+    _logoScaleAnimation = TweenSequence([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: 1.2).chain(CurveTween(curve: Curves.easeOutBack)),
+        weight: 70,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.2, end: 1.0).chain(CurveTween(curve: Curves.elasticOut)),
+        weight: 30,
+      ),
+    ]).animate(_logoController);
 
     _logoOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _logoController, curve: Curves.easeIn)
@@ -107,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen>
     _logoSlideAnimation = Tween<Offset>(
       begin: const Offset(0, -1.0),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.bounceOut));
+    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack));
 
     _textSlideAnimation = Tween<Offset>(
       begin: const Offset(0, 1.0),
@@ -118,12 +129,20 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _textController, curve: Curves.easeIn)
     );
 
-    _particlesAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _particlesController, curve: Curves.easeInOut)
+    _scannerAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _scannerController, curve: Curves.easeInOut)
     );
 
-    _glowAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
-      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut)
+    _molecularAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _molecularController, curve: Curves.easeInOut)
+    );
+
+    _ingredientAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _ingredientController, curve: Curves.easeInOut)
+    );
+    
+    _healthPulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
+      CurvedAnimation(parent: _healthController, curve: Curves.easeInOut)
     );
   }
 
@@ -133,23 +152,31 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start background animation immediately
     _backgroundController.forward();
-    _particlesController.repeat();
-    _glowController.repeat(reverse: true);
+    _healthController.repeat(reverse: true);
 
-    // Staggered animations
+    // Staggered animations representing the scanning process
     await Future.delayed(const Duration(milliseconds: 300));
-    if (mounted) _logoController.forward();
+    if (mounted) _scannerController.forward();
 
     await Future.delayed(const Duration(milliseconds: 600));
-    if (mounted) _textController.forward();
+    if (mounted) _molecularController.forward();
 
-    await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) setState(() => _showSecondaryText = true);
+    await Future.delayed(const Duration(milliseconds: 900));
+    if (mounted) _ingredientController.forward();
+
+    await Future.delayed(const Duration(milliseconds: 1200));
+    if (mounted) _logoController.forward();
 
     await Future.delayed(const Duration(milliseconds: 1500));
+    if (mounted) _textController.forward();
+
+    await Future.delayed(const Duration(milliseconds: 2500));
+    if (mounted) setState(() => _showSecondaryText = true);
+
+    await Future.delayed(const Duration(milliseconds: 3000));
     if (mounted) setState(() => _showLoadingDots = true);
 
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 3500));
     if (mounted) {
       HapticFeedback.mediumImpact();
       _masterController.forward();
@@ -162,8 +189,10 @@ class _SplashScreenState extends State<SplashScreen>
     _backgroundController.dispose();
     _logoController.dispose();
     _textController.dispose();
-    _particlesController.dispose();
-    _glowController.dispose();
+    _scannerController.dispose();
+    _molecularController.dispose();
+    _ingredientController.dispose();
+    _healthController.dispose();
     super.dispose();
   }
 
@@ -174,8 +203,10 @@ class _SplashScreenState extends State<SplashScreen>
         _backgroundController,
         _logoController,
         _textController,
-        _particlesController,
-        _glowController,
+        _scannerController,
+        _molecularController,
+        _ingredientController,
+        _healthController,
       ]),
       builder: (context, child) {
         return AnimatedSplashScreen(
@@ -183,7 +214,7 @@ class _SplashScreenState extends State<SplashScreen>
           backgroundColor: Colors.black,
           nextScreen: widget.nextScreen,
           splashIconSize: MediaQuery.of(context).size.height * 0.9,
-          duration: 4000,
+          duration: 5000,
           splashTransition: SplashTransition.fadeTransition,
           pageTransitionType: PageTransitionType.fade,
           animationDuration: const Duration(milliseconds: 1000),
@@ -201,7 +232,9 @@ class _SplashScreenState extends State<SplashScreen>
       child: Stack(
         children: [
           _buildAnimatedBackground(screenSize),
-          _buildFloatingParticles(screenSize),
+          _buildScanningVisualization(screenSize),
+          _buildMolecularStructure(screenSize),
+          _buildIngredientDetection(screenSize),
           _buildMainContent(screenSize),
           _buildTopGradientOverlay(),
           _buildBottomGradientOverlay(),
@@ -212,42 +245,116 @@ class _SplashScreenState extends State<SplashScreen>
 
   Widget _buildAnimatedBackground(Size screenSize) {
     return AnimatedBuilder(
-      animation: _backgroundColorAnimation,
+      animation: _backgroundAnimation,
       builder: (context, child) {
         return Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment.center,
-              radius: 1.0 + (_backgroundAnimation.value * 0.5),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: [
-                (_backgroundColorAnimation.value ?? AppTheme.primaryGreen).withOpacity(0.9),
-                AppTheme.primaryGreen.withOpacity(0.7),
-                Colors.teal.shade400.withOpacity(0.8),
+                AppTheme.primaryGreen.withOpacity(0.95 * _backgroundAnimation.value),
+                AppTheme.lightGreen.withOpacity(0.85 * _backgroundAnimation.value),
+                AppTheme.accentGreen.withOpacity(0.75 * _backgroundAnimation.value),
                 Colors.black,
               ],
-              stops: const [0.0, 0.3, 0.6, 1.0],
+              stops: const [0.0, 0.4, 0.7, 1.0],
             ),
-          ),
-          child: CustomPaint(
-            size: screenSize,
-            painter: NeuralNetworkPainter(_backgroundAnimation.value),
           ),
         );
       },
     );
   }
 
-  Widget _buildFloatingParticles(Size screenSize) {
-    return Positioned.fill(
-      child: CustomPaint(
-        size: screenSize,
-        painter: AdvancedParticlesPainter(
-          _particlesAnimation.value,
-          _glowAnimation.value,
+  Widget _buildScanningVisualization(Size screenSize) {
+    return AnimatedBuilder(
+      animation: _scannerAnimation,
+      builder: (context, child) {
+        return Positioned(
+          top: screenSize.height * 0.15,
+          left: screenSize.width * 0.1,
+          right: screenSize.width * 0.1,
+          child: Container(
+            height: 4,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  AppTheme.lightGreen.withOpacity(0.8 * _scannerAnimation.value),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+            transform: Matrix4.translationValues(
+              0.0,
+              screenSize.height * 0.3 * _scannerAnimation.value,
+              0.0,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMolecularStructure(Size screenSize) {
+    return AnimatedBuilder(
+      animation: _molecularAnimation,
+      builder: (context, child) {
+        return Positioned(
+          top: screenSize.height * 0.2,
+          left: screenSize.width * 0.5 - 60,
+          child: Opacity(
+            opacity: _molecularAnimation.value,
+            child: CustomPaint(
+              size: const Size(120, 120),
+              painter: MolecularStructurePainter(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIngredientDetection(Size screenSize) {
+    return AnimatedBuilder(
+      animation: _ingredientController,
+      builder: (context, child) {
+        return Positioned(
+          top: screenSize.height * 0.35,
+          left: screenSize.width * 0.5 - 100,
+          right: screenSize.width * 0.5 - 100,
+          child: Opacity(
+            opacity: _ingredientController.value,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildIngredientIcon(Icons.warning_amber_rounded, AppTheme.highRisk, "Tartrazine"),
+                _buildIngredientIcon(Icons.info_outline, AppTheme.moderateRisk, "MSG"),
+                _buildIngredientIcon(Icons.check_circle_outline, AppTheme.safeColor, "Vitamin C"),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIngredientIcon(IconData icon, Color color, String label) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 24),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 8,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -256,7 +363,7 @@ class _SplashScreenState extends State<SplashScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildHolographicLogo(screenSize),
+          _buildAppLogo(screenSize),
           SizedBox(height: screenSize.height * 0.08),
           _buildAnimatedTitle(),
           SizedBox(height: screenSize.height * 0.03),
@@ -268,135 +375,77 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Widget _buildHolographicLogo(Size screenSize) {
+  Widget _buildAppLogo(Size screenSize) {
     return SlideTransition(
       position: _logoSlideAnimation,
       child: FadeTransition(
         opacity: _logoOpacityAnimation,
         child: Transform.scale(
-          scale: _logoScaleAnimation.value * _glowAnimation.value.clamp(0.8, 1.2),
-          child: Transform.rotate(
-            angle: _logoRotationAnimation.value * math.pi,
-            child: Container(
-              width: screenSize.width * 0.5,
-              height: screenSize.width * 0.5,
+          scale: _logoScaleAnimation.value * _healthPulseAnimation.value,
+          child: Container(
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              border: Border.all(
+                color: AppTheme.lightGreen.withOpacity(0.5),
+                width: 3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.primaryGreen.withOpacity(0.4),
+                  blurRadius: 20,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: ClipOval(
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Multiple glow layers
-                  ...List.generate(3, (index) => _buildGlowLayer(index, screenSize)),
-                  // Main logo container
-                  _buildMainLogoContainer(screenSize),
-                  // Holographic overlay
-                  _buildHolographicOverlay(screenSize),
+                  // App icon
+                  Image.asset(
+                    'assets/images/app_icon.png',
+                    width: 160,
+                    height: 160,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 160,
+                        height: 160,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF4CAF50),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.eco_rounded,
+                          size: 80,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
+                  ),
+                  // Lottie animation overlay
+                  SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Lottie.asset(
+                      'assets/animations/splash_animation.json',
+                      fit: BoxFit.cover,
+                      repeat: true,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.scatter_plot_rounded,
+                          color: AppTheme.primaryGreen.withOpacity(0.3),
+                          size: 100,
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGlowLayer(int index, Size screenSize) {
-    final size = 160.0 + (index * 15);
-    final opacity = (0.15 - index * 0.03) * _glowAnimation.value.clamp(0.0, 1.0);
-    
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.cyan.withOpacity(opacity),
-            blurRadius: 20.0 + (index * 8),
-            spreadRadius: 5.0 + (index * 3),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMainLogoContainer(Size screenSize) {
-    return Container(
-      width: 180,
-      height: 180,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const RadialGradient(
-          colors: [
-            Colors.white,
-            Color(0xFFF8F8F8),
-            Color(0xFFE8E8E8),
-          ],
-        ),
-        border: Border.all(
-          color: Colors.cyan.withOpacity(0.3),
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 20,
-            spreadRadius: 3,
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // App icon
-            Image.asset(
-              'assets/images/app_icon.png',
-              width: 160,
-              height: 160,
-              errorBuilder: (context, error, stackTrace) {
-                return Icon(
-                  Icons.eco_rounded,
-                  size: 80,
-                  color: AppTheme.primaryGreen,
-                );
-              },
-            ),
-            // Lottie animation overlay
-            SizedBox(
-              width: 200,
-              height: 200,
-              child: Lottie.asset(
-                'assets/animations/splash_animation.json',
-                fit: BoxFit.cover,
-                repeat: true,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    Icons.scatter_plot_rounded,
-                    color: Colors.green.withOpacity(0.3),
-                    size: 100,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHolographicOverlay(Size screenSize) {
-    return Container(
-      width: 180,
-      height: 180,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.cyan.withOpacity(0.1 * _backgroundAnimation.value),
-            Colors.transparent,
-            Colors.blue.withOpacity(0.05 * _backgroundAnimation.value),
-          ],
         ),
       ),
     );
@@ -407,56 +456,36 @@ class _SplashScreenState extends State<SplashScreen>
       position: _textSlideAnimation,
       child: FadeTransition(
         opacity: _textFadeAnimation,
-        child: Column(
-          children: [
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [
-                  Colors.white,
-                  Color(0xFF80E8FF),
-                  Colors.white,
-                ],
-                stops: [0.0, 0.5, 1.0],
-              ).createShader(bounds),
-              child: const Text(
-                'NutriScan',
-                style: TextStyle(
-                  fontSize: 44,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                  letterSpacing: 2.5,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(0, 3),
-                      blurRadius: 10,
-                      color: Colors.cyan,
-                    ),
-                    Shadow(
-                      offset: Offset(1, 1),
-                      blurRadius: 6,
-                      color: Colors.black54,
-                    ),
-                  ],
+        child: ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [
+              Colors.white,
+              Color(0xFF80E8FF),
+              Colors.white,
+            ],
+            stops: [0.0, 0.5, 1.0],
+          ).createShader(bounds),
+          child: const Text(
+            AppConstants.appName,
+            style: TextStyle(
+              fontSize: 48,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              letterSpacing: 2.5,
+              shadows: [
+                Shadow(
+                  offset: Offset(0, 3),
+                  blurRadius: 15,
+                  color: Colors.lightGreen,
                 ),
-              ),
-            ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 800),
-              height: 2,
-              width: 180 * _textFadeAnimation.value,
-              margin: const EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    Colors.cyan,
-                    Colors.transparent,
-                  ],
+                Shadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 8,
+                  color: Colors.black54,
                 ),
-                borderRadius: BorderRadius.circular(1),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -465,27 +494,21 @@ class _SplashScreenState extends State<SplashScreen>
   Widget _buildAnimatedSubtitle() {
     return AnimatedOpacity(
       opacity: _showSecondaryText ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1000),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.white.withOpacity(0.1),
-                  Colors.cyan.withOpacity(0.05),
-                  Colors.white.withOpacity(0.1),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(25),
+              color: AppTheme.primaryGreen.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: Colors.cyan.withOpacity(0.3),
-                width: 1,
+                color: AppTheme.lightGreen.withOpacity(0.4),
+                width: 1.5,
               ),
             ),
             child: const Text(
-              'Scan. Analyze. Eat Smart.',
+              AppConstants.appTagline,
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
@@ -494,12 +517,12 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 15),
           Text(
-            'AI-Powered Nutrition Intelligence',
+            AppConstants.appDescription,
             style: TextStyle(
               fontSize: 15,
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withOpacity(0.85),
               letterSpacing: 0.8,
               fontStyle: FontStyle.italic,
             ),
@@ -516,35 +539,35 @@ class _SplashScreenState extends State<SplashScreen>
           alignment: Alignment.center,
           children: [
             SizedBox(
-              width: 50,
-              height: 50,
+              width: 60,
+              height: 60,
               child: CircularProgressIndicator(
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.cyan),
-                strokeWidth: 3,
-                backgroundColor: Colors.white.withOpacity(0.1),
+                valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.lightGreen),
+                strokeWidth: 4,
+                backgroundColor: Colors.white.withOpacity(0.15),
               ),
             ),
             SizedBox(
-              width: 35,
-              height: 35,
+              width: 40,
+              height: 40,
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white.withOpacity(0.8)),
-                strokeWidth: 2,
+                strokeWidth: 3,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 20),
         AnimatedBuilder(
-          animation: _particlesController,
+          animation: _ingredientController,
           builder: (context, child) {
-            String dots = '.' * ((_particlesController.value * 3).floor() + 1);
+            String dots = '.' * ((_ingredientController.value * 3).floor() + 1);
             return Text(
-              'Initializing AI systems$dots',
+              'Analyzing ingredients$dots',
               style: TextStyle(
                 color: Colors.white.withOpacity(0.9),
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
               ),
             );
           },
@@ -558,14 +581,14 @@ class _SplashScreenState extends State<SplashScreen>
       top: 0,
       left: 0,
       right: 0,
-      height: 80,
+      height: 100,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black.withOpacity(0.3),
+              Colors.black.withOpacity(0.5),
               Colors.transparent,
             ],
           ),
@@ -579,14 +602,14 @@ class _SplashScreenState extends State<SplashScreen>
       bottom: 0,
       left: 0,
       right: 0,
-      height: 120,
+      height: 150,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Colors.black.withOpacity(0.4),
+              Colors.black.withOpacity(0.6),
               Colors.transparent,
             ],
           ),
@@ -596,81 +619,51 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// Simplified particle system painter
-class AdvancedParticlesPainter extends CustomPainter {
-  final double animationValue;
-  final double glowValue;
-
-  AdvancedParticlesPainter(this.animationValue, this.glowValue);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final random = math.Random(42);
-    
-    for (int i = 0; i < 60; i++) {
-      final x = random.nextDouble() * size.width;
-      final y = random.nextDouble() * size.height;
-      final radius = 1.0 + random.nextDouble() * 2.0;
-      final opacity = (0.2 + random.nextDouble() * 0.3) * animationValue;
-      
-      final paint = Paint()
-        ..color = [Colors.cyan, Colors.white, Colors.blue.shade200][i % 3]
-            .withOpacity(opacity * glowValue.clamp(0.0, 1.0))
-        ..style = PaintingStyle.fill;
-
-      canvas.drawCircle(Offset(x, y), radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-// Simplified neural network background painter
-class NeuralNetworkPainter extends CustomPainter {
-  final double animationValue;
-
-  NeuralNetworkPainter(this.animationValue);
-
+// Molecular structure painter representing food analysis
+class MolecularStructurePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.cyan.withOpacity(0.08 * animationValue)
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..color = Colors.white.withOpacity(0.7);
 
-    final random = math.Random(123);
-    final points = <Offset>[];
-    
-    // Generate connection points
-    for (int i = 0; i < 20; i++) {
-      points.add(Offset(
-        random.nextDouble() * size.width,
-        random.nextDouble() * size.height,
-      ));
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width * 0.3;
+
+    // Draw central atom
+    final centerPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = const Color(0xFF4CAF50);
+
+    canvas.drawCircle(center, 8, centerPaint);
+
+    // Draw connected atoms
+    for (int i = 0; i < 6; i++) {
+      final angle = (i * 60) * math.pi / 180;
+      final x = center.dx + radius * math.cos(angle);
+      final y = center.dy + radius * math.sin(angle);
+      
+      // Draw bond line
+      canvas.drawLine(center, Offset(x, y), paint);
+      
+      // Draw atom
+      final atomPaint = Paint()
+        ..style = PaintingStyle.fill
+        ..color = i % 2 == 0 ? const Color(0xFF81C784) : const Color(0xFF8BC34A);
+      
+      canvas.drawCircle(Offset(x, y), 6, atomPaint);
     }
 
-    // Draw connections
-    for (int i = 0; i < points.length; i++) {
-      for (int j = i + 1; j < points.length; j++) {
-        final distance = (points[i] - points[j]).distance;
-        if (distance < 150) {
-          final opacity = (1 - distance / 150) * animationValue * 0.2;
-          paint.color = Colors.cyan.withOpacity(opacity.clamp(0.0, 1.0));
-          canvas.drawLine(points[i], points[j], paint);
-        }
-      }
-    }
+    // Draw rings
+    final ringPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5
+      ..color = Colors.white.withOpacity(0.5);
 
-    // Draw nodes
-    for (final point in points) {
-      final nodePaint = Paint()
-        ..color = Colors.cyan.withOpacity(0.3 * animationValue)
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(point, 1.5, nodePaint);
-    }
+    canvas.drawCircle(center, radius * 0.6, ringPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

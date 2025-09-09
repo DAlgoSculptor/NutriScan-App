@@ -28,7 +28,7 @@ class _LoadingAnimationState extends State<LoadingAnimation>
 
     // Rotation animation
     _rotationController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
 
@@ -42,13 +42,13 @@ class _LoadingAnimationState extends State<LoadingAnimation>
 
     // Pulse animation
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     )..repeat(reverse: true);
 
     _pulseAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
+      begin: 0.9,
+      end: 1.1,
     ).animate(CurvedAnimation(
       parent: _pulseController,
       curve: Curves.easeInOut,
@@ -79,14 +79,14 @@ class _LoadingAnimationState extends State<LoadingAnimation>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: color.withOpacity(0.3),
-                  width: 3,
+                  color: color.withOpacity(0.2),
+                  width: 4,
                 ),
               ),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Outer ring
+                  // Outer ring with gradient effect
                   Container(
                     width: widget.size * 0.9,
                     height: widget.size * 0.9,
@@ -94,34 +94,43 @@ class _LoadingAnimationState extends State<LoadingAnimation>
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: color.withOpacity(0.1),
-                        width: 1,
+                        width: 2,
                       ),
                     ),
                   ),
-                  // Inner circle with icon
+                  // Scanning rings
+                  Positioned.fill(
+                    child: AnimatedBuilder(
+                      animation: _rotationController,
+                      builder: (context, child) {
+                        return CustomPaint(
+                          painter: _ScanningRingsPainter(
+                            color: color,
+                            progress: _rotationController.value,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  // Central icon
                   Container(
-                    width: widget.size * 0.6,
-                    height: widget.size * 0.6,
+                    width: widget.size * 0.5,
+                    height: widget.size * 0.5,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: color.withOpacity(0.1),
+                      color: color.withOpacity(0.15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: Icon(
                       Icons.analytics_rounded,
                       color: color,
-                      size: widget.size * 0.3,
-                    ),
-                  ),
-                  // Progress indicator
-                  Positioned(
-                    top: 0,
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: color,
-                      ),
+                      size: widget.size * 0.25,
                     ),
                   ),
                 ],
@@ -132,4 +141,42 @@ class _LoadingAnimationState extends State<LoadingAnimation>
       },
     );
   }
+}
+
+class _ScanningRingsPainter extends CustomPainter {
+  final Color color;
+  final double progress;
+
+  _ScanningRingsPainter({
+    required this.color,
+    required this.progress,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+    
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+
+    // Draw scanning rings
+    for (int i = 0; i < 3; i++) {
+      final ringProgress = (progress + i * 0.3) % 1.0;
+      final ringRadius = radius * ringProgress * 0.8;
+      
+      paint.color = color.withOpacity(0.7 * (1 - ringProgress));
+      
+      canvas.drawCircle(
+        center,
+        ringRadius,
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

@@ -43,6 +43,10 @@ class AboutScreen extends StatelessWidget {
             
             // Team Section
             _buildTeamSection(context),
+            const SizedBox(height: 24),
+            
+            // Contact Section
+            _buildContactSection(context),
           ],
         ),
       ),
@@ -481,6 +485,77 @@ class AboutScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildContactSection(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryGreen.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.contact_support_rounded,
+                    color: AppTheme.primaryGreen,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Contact Us',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Have questions, feedback, or suggestions? We\'d love to hear from you!',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildContactMethod(context, Icons.email_rounded, 'Email', 'contact@nutriscan.example'),
+            _buildContactMethod(context, Icons.language_rounded, 'Website', 'www.nutriscan.example'),
+            _buildContactMethod(context, Icons.support_agent_rounded, 'Support', 'support@nutriscan.example'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContactMethod(BuildContext context, IconData icon, String title, String info) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: AppTheme.primaryGreen, size: 20),
+          const SizedBox(width: 12),
+          Text(
+            '$title: ',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            info,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppTheme.mediumGray,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -44,6 +44,14 @@ class _ScanScreenState extends State<ScanScreen> {
       appBar: AppBar(
         title: const Text('Scan Ingredients'),
         backgroundColor: AppTheme.primaryGreen,
+        actions: [
+          if (_scanResult != null && !_isProcessing)
+            IconButton(
+              icon: const Icon(Icons.picture_as_pdf_rounded),
+              onPressed: _generatePDFReport,
+              tooltip: 'Generate PDF Report',
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -52,11 +60,11 @@ class _ScanScreenState extends State<ScanScreen> {
           children: [
             // Instructions Card
             _buildInstructionsCard(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             
             // Image Selection Buttons
             _buildImageSelectionButtons(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             
             // Selected Image Display
             if (_selectedImage != null) _buildSelectedImage(),
@@ -74,62 +82,82 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Widget _buildInstructionsCard() {
     return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.info_outline, color: AppTheme.primaryGreen),
-                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryGreen.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.info_outline, 
+                    color: AppTheme.primaryGreen,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Text(
                   'How to Scan',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: AppTheme.darkGray,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            _buildInstructionStep(1, 'Take a clear photo of the ingredient label'),
-            _buildInstructionStep(2, 'Ensure good lighting and focus'),
-            _buildInstructionStep(3, 'Wait for analysis to complete'),
-            _buildInstructionStep(4, 'Review harmful ingredients found'),
+            const SizedBox(height: 16),
+            _buildInstructionStep(1, 'Take a clear photo of the ingredient label', Icons.camera_alt_rounded),
+            _buildInstructionStep(2, 'Ensure good lighting and focus', Icons.light_mode_rounded),
+            _buildInstructionStep(3, 'Wait for analysis to complete', Icons.hourglass_bottom_rounded),
+            _buildInstructionStep(4, 'Review harmful ingredients found', Icons.visibility_rounded),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildInstructionStep(int number, String text) {
+  Widget _buildInstructionStep(int number, String text, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Container(
-            width: 24,
-            height: 24,
+            width: 32,
+            height: 32,
             decoration: BoxDecoration(
-              color: AppTheme.primaryGreen.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+              color: AppTheme.primaryGreen.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Center(
               child: Text(
                 '$number',
                 style: TextStyle(
                   color: AppTheme.primaryGreen,
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
+          const SizedBox(width: 16),
+          Icon(icon, color: AppTheme.mediumGray, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -144,22 +172,33 @@ class _ScanScreenState extends State<ScanScreen> {
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: () => _pickImage(ImageSource.camera),
-            icon: const Icon(Icons.camera_alt_rounded),
-            label: const Text('Take Photo'),
+            icon: const Icon(Icons.camera_alt_rounded, size: 24),
+            label: const Text('Take Photo', style: TextStyle(fontSize: 18)),
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () => _pickImage(ImageSource.gallery),
-            icon: const Icon(Icons.photo_library_rounded),
-            label: const Text('Choose from Gallery'),
+            icon: const Icon(Icons.photo_library_rounded, size: 24),
+            label: const Text('Choose from Gallery', style: TextStyle(fontSize: 18)),
             style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              side: BorderSide(
+                color: AppTheme.primaryGreen,
+                width: 2,
+              ),
             ),
           ),
         ),
@@ -169,34 +208,55 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Widget _buildSelectedImage() {
     return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Selected Image',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Icon(
+                  Icons.image_rounded, 
+                  color: AppTheme.primaryGreen,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Selected Image',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
               child: Image.file(
                 _selectedImage!,
                 width: double.infinity,
-                height: 200,
+                height: 250,
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _isProcessing ? null : _processImage,
-                icon: const Icon(Icons.analytics_rounded),
-                label: const Text('Analyze Ingredients'),
+                icon: const Icon(Icons.analytics_rounded, size: 24),
+                label: const Text('Analyze Ingredients', style: TextStyle(fontSize: 18)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 4,
+                ),
               ),
             ),
           ],
@@ -207,25 +267,36 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Widget _buildProcessingIndicator() {
     return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(32),
         child: Column(
           children: [
-            const LoadingAnimation(),
-            const SizedBox(height: 16),
+            const LoadingAnimation(size: 60),
+            const SizedBox(height: 24),
             Text(
               'Processing Image...',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Text(
               _processingStep,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: AppTheme.mediumGray,
               ),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            LinearProgressIndicator(
+              backgroundColor: AppTheme.lightGray,
+              color: AppTheme.primaryGreen,
+              minHeight: 8,
+              borderRadius: BorderRadius.circular(4),
             ),
           ],
         ),
@@ -237,30 +308,65 @@ class _ScanScreenState extends State<ScanScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Scan Results',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryGreen.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.analytics_rounded, 
+                color: AppTheme.primaryGreen,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Scan Results',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.refresh_rounded),
+              onPressed: _scanAnother,
+              tooltip: 'Scan Another Product',
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         ScanResultCard(scanResult: _scanResult!),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         Row(
           children: [
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: _shareResults,
                 icon: const Icon(Icons.share_rounded),
-                label: const Text('Share'),
+                label: const Text('Share Results'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton.icon(
-                onPressed: _scanAnother,
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Scan Another'),
+                onPressed: _generatePDFReport,
+                icon: const Icon(Icons.picture_as_pdf_rounded),
+                label: const Text('PDF Report'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
               ),
             ),
           ],
@@ -385,6 +491,35 @@ class _ScanScreenState extends State<ScanScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to share report: $e'),
+            backgroundColor: AppTheme.moderateRisk,
+          ),
+        );
+      }
+    }
+  }
+
+  void _generatePDFReport() async {
+    if (_scanResult == null) return;
+
+    try {
+      final pdfFile = await ExportService.generatePDFReport(_scanResult!);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('PDF report generated successfully!'),
+            backgroundColor: AppTheme.primaryGreen,
+          ),
+        );
+      }
+      
+      // Optionally open the PDF or share it
+      await ExportService.sharePDFReport(_scanResult!);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to generate PDF report: $e'),
             backgroundColor: AppTheme.moderateRisk,
           ),
         );
