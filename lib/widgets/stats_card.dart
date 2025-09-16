@@ -49,11 +49,16 @@ class StatsCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8),
-                  fontWeight: FontWeight.w600,
+              // Make title text responsive
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8),
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
               ),
             ],
@@ -65,6 +70,9 @@ class StatsCard extends StatelessWidget {
               color: color,
               fontWeight: FontWeight.bold,
             ),
+            // Handle long values with ellipsis
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
           const SizedBox(height: 4),
           Text(
@@ -73,6 +81,9 @@ class StatsCard extends StatelessWidget {
               color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
               height: 1.4,
             ),
+            // Make subtitle responsive
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
           ),
         ],
       ),

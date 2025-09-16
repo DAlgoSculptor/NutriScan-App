@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../theme/app_theme.dart';
 import '../widgets/feature_card.dart';
 import '../widgets/stats_card.dart';
-import '../main.dart';
+import '../navigation/main_navigation.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -74,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Your smart companion for food safety',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: AppTheme.mediumGray,
           ),
         ),
@@ -143,29 +144,14 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text(
-            'Simply point your camera at any food product label and let NutriScan identify harmful ingredients for you.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withOpacity(0.95),
-              height: 1.5,
+          Center(
+            child: Icon(
+              Icons.camera_alt_outlined,
+              size: 52,
+              color: Colors.white.withOpacity(0.8),
             ),
           ),
           const SizedBox(height: 20),
-          // Add a visual element to make it more engaging
-          Container(
-            height: 120,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.camera_alt_outlined,
-                size: 52,
-                color: Colors.white.withOpacity(0.8),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -213,13 +199,6 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Daily Health Tips',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -258,7 +237,7 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     'Tip of the Day',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -266,8 +245,8 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 'Always check the ingredient list before buying processed foods. The longer the list, the more additives it likely contains.',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.5,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppTheme.mediumGray,
                 ),
               ),
               const SizedBox(height: 12),
@@ -289,13 +268,6 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Ingredients to Watch',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -364,7 +336,10 @@ class HomeScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   // Navigate to about tab for more information
-                  MainNavigationScreen.changeTab(2);
+                  final mainState = MainNavigationScreen.of(context);
+                  if (mainState != null) {
+                    mainState.changeTab(2);
+                  }
                 },
                 child: const Text('Learn more about harmful ingredients'),
               ),
@@ -514,20 +489,27 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  _buildEducationPoint(context, 'Preservatives', 12),
-                  const SizedBox(width: 12),
-                  _buildEducationPoint(context, 'Artificial Colors', 8),
-                  const SizedBox(width: 12),
-                  _buildEducationPoint(context, 'Sweeteners', 6),
-                ],
+              // Wrap with SingleChildScrollView to handle horizontal overflow
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildEducationPoint(context, 'Preservatives', 12),
+                    const SizedBox(width: 12),
+                    _buildEducationPoint(context, 'Artificial Colors', 8),
+                    const SizedBox(width: 12),
+                    _buildEducationPoint(context, 'Sweeteners', 6),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to about tab for more educational content
-                  MainNavigationScreen.changeTab(2);
+                  final mainState = MainNavigationScreen.of(context);
+                  if (mainState != null) {
+                    mainState.changeTab(2);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.accentGreen,
@@ -574,7 +556,10 @@ class HomeScreen extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: () {
               // Navigate to scan tab
-              MainNavigationScreen.changeTab(1);
+              final mainState = MainNavigationScreen.of(context);
+              if (mainState != null) {
+                mainState.changeTab(1);
+              }
             },
             icon: const Icon(Icons.qr_code_scanner_rounded, size: 24),
             label: const Text('Start Scanning'),
@@ -598,7 +583,10 @@ class HomeScreen extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   // Navigate to about tab
-                  MainNavigationScreen.changeTab(2);
+                  final mainState = MainNavigationScreen.of(context);
+                  if (mainState != null) {
+                    mainState.changeTab(2);
+                  }
                 },
                 icon: const Icon(Icons.info_outline_rounded),
                 label: const Text('Learn More'),
@@ -615,7 +603,10 @@ class HomeScreen extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   // Navigate to about tab (which now contains contact info)
-                  MainNavigationScreen.changeTab(2);
+                  final mainState = MainNavigationScreen.of(context);
+                  if (mainState != null) {
+                    mainState.changeTab(2);
+                  }
                 },
                 icon: const Icon(Icons.contact_support_rounded),
                 label: const Text('Contact Us'),

@@ -125,104 +125,110 @@ class _IngredientDetailCardState extends State<IngredientDetailCard> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Divider
-          Container(
-            height: 1,
-            color: riskColor.withOpacity(0.2),
-            margin: const EdgeInsets.only(bottom: 16),
-          ),
-          
-          // Description
-          Text(
-            'Description',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Divider
+            Container(
+              height: 1,
+              color: riskColor.withOpacity(0.2),
+              margin: const EdgeInsets.only(bottom: 16),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            widget.ingredient.description,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          
-          // Side Effects
-          if (widget.ingredient.sideEffects.isNotEmpty) ...[
+            
+            // Description
             Text(
-              'Potential Side Effects',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: widget.ingredient.sideEffects.map((effect) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: riskColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: riskColor.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    effect,
-                    style: TextStyle(
-                      color: riskColor,
-                      fontSize: 12,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 12),
-          ],
-          
-          // Aliases
-          if (widget.ingredient.aliases.isNotEmpty) ...[
-            Text(
-              'Also Known As',
+              'Description',
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              widget.ingredient.aliases.join(', '),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mediumGray,
-                fontStyle: FontStyle.italic,
+              widget.ingredient.description,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                height: 1.4,
               ),
+              overflow: TextOverflow.clip,
+              softWrap: true,
             ),
             const SizedBox(height: 12),
-          ],
-          
-          // Commonly Found In
-          if (widget.ingredient.foundIn.isNotEmpty) ...[
-            Text(
-              'Commonly Found In',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
+            
+            // Side Effects
+            if (widget.ingredient.sideEffects.isNotEmpty) ...[
+              Text(
+                'Potential Side Effects',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              widget.ingredient.foundIn.join(', '),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mediumGray,
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: widget.ingredient.sideEffects.map((effect) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: riskColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: riskColor.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Text(
+                      effect,
+                      style: TextStyle(
+                        color: riskColor,
+                        fontSize: 12,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            ),
+              const SizedBox(height: 12),
+            ],
+            
+            // Aliases
+            if (widget.ingredient.aliases.isNotEmpty) ...[
+              Text(
+                'Also Known As',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                widget.ingredient.aliases.join(', '),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppTheme.mediumGray,
+                  fontStyle: FontStyle.italic,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 12),
+            ],
+            
+            // Commonly Found In
+            if (widget.ingredient.foundIn.isNotEmpty) ...[
+              Text(
+                'Commonly Found In',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                widget.ingredient.foundIn.join(', '),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppTheme.mediumGray,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -239,4 +245,4 @@ class _IngredientDetailCardState extends State<IngredientDetailCard> {
         return Icons.check_circle_rounded;
     }
   }
-}
+} 

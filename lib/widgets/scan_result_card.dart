@@ -317,56 +317,63 @@ class ScanResultCard extends StatelessWidget {
               width: 1,
             ),
           ),
-          child: Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: scanResult.detectedIngredients.map((ingredient) {
-              final isHarmful = scanResult.harmfulIngredients.any(
-                (harmful) => harmful.matchesSearchTerm(ingredient),
-              );
-              
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: isHarmful 
-                      ? AppTheme.moderateRisk.withOpacity(0.2) 
-                      : AppTheme.lightGray.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isHarmful 
-                        ? AppTheme.moderateRisk.withOpacity(0.4) 
-                        : AppTheme.lightGray.withOpacity(0.7),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (isHarmful) ...[
-                      Icon(
-                        Icons.warning_rounded,
-                        color: AppTheme.moderateRisk,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                    ],
-                    Flexible(
-                      child: Text(
-                        ingredient,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isHarmful 
-                              ? AppTheme.moderateRisk 
-                              : AppTheme.mediumGray,
-                          fontWeight: isHarmful ? FontWeight.w600 : FontWeight.normal,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 200),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: scanResult.detectedIngredients.map((ingredient) {
+                  final isHarmful = scanResult.harmfulIngredients.any(
+                    (harmful) => harmful.matchesSearchTerm(ingredient),
+                  );
+                  
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isHarmful 
+                          ? AppTheme.moderateRisk.withOpacity(0.2) 
+                          : AppTheme.lightGray.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: isHarmful 
+                            ? AppTheme.moderateRisk.withOpacity(0.4) 
+                            : AppTheme.lightGray.withOpacity(0.7),
+                        width: 1,
                       ),
                     ),
-                  ],
-                ),
-              );
-            }).toList(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isHarmful) ...[
+                          Icon(
+                            Icons.warning_rounded,
+                            color: AppTheme.moderateRisk,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                        ],
+                        SizedBox(
+                          width: 200, // Limit width for overflow handling
+                          child: Text(
+                            ingredient,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isHarmful 
+                                  ? AppTheme.moderateRisk 
+                                  : AppTheme.mediumGray,
+                              fontWeight: isHarmful ? FontWeight.w600 : FontWeight.normal,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           ),
         ),
       ],
