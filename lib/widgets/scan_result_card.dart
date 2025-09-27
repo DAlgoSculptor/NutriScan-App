@@ -458,13 +458,13 @@ class ScanResultCard extends StatelessWidget {
   String _getRiskDescription(String riskLevel) {
     switch (riskLevel.toLowerCase()) {
       case 'high risk':
-        return 'Multiple high-risk ingredients detected';
+        return 'Multiple high-risk ingredients detected. Avoid this product if possible.';
       case 'moderate risk':
-        return 'Some concerning ingredients found';
+        return 'Some concerning ingredients found. Consume with caution.';
       case 'caution':
-        return 'Minor ingredients of concern';
+        return 'Minor ingredients of concern. Generally safe for most people.';
       default:
-        return 'No harmful ingredients detected';
+        return 'No harmful ingredients detected. This product appears safe!';
     }
   }
 

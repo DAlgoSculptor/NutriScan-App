@@ -29,7 +29,7 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primaryGreen,
       secondary: accentGreen,
-      surface: Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
+      surface: Color(0xFFF5F7FA),
       background: backgroundColor,
       error: highRisk,
       onPrimary: Colors.white,
@@ -41,38 +41,41 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: primaryGreen,
       foregroundColor: Colors.white,
-      elevation: 0,
+      elevation: 4,
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
+      shadowColor: Colors.black26,
     ),
 
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
+      backgroundColor: Colors.white,
       selectedItemColor: primaryGreen,
       unselectedItemColor: mediumGray,
       type: BottomNavigationBarType.fixed,
-      elevation: 8,
+      elevation: 12,
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
     ),
 
     cardTheme: CardTheme(
-      elevation: 2,
+      elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      color: const Color(0xFFF5F7FA), // Changed from Colors.white to backgroundColor
-      shadowColor: Colors.black.withOpacity(0.1),
+      color: Colors.white,
+      shadowColor: Colors.black.withOpacity(0.08),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryGreen,
-        foregroundColor: Colors.white, // Keep this for contrast on green buttons
-        elevation: 4,
+        foregroundColor: Colors.white,
+        elevation: 6,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -81,6 +84,8 @@ class AppTheme {
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
+        shadowColor: primaryGreen.withOpacity(0.4),
+        animationDuration: const Duration(milliseconds: 200),
       ),
     ),
 
@@ -111,14 +116,14 @@ class AppTheme {
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: lightGray.withOpacity(0.3),
+      fillColor: lightGray.withOpacity(0.5),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: lightGray.withOpacity(0.5)),
+        borderSide: BorderSide(color: lightGray.withOpacity(0.7)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -207,6 +212,21 @@ class AppTheme {
         borderRadius: BorderRadius.circular(20),
       ),
     ),
+
+    // Add snackbar theme for better feedback
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: darkGray,
+      contentTextStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
+      actionTextColor: primaryGreen,
+      elevation: 6,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
+    ),
   );
 
   // Dark Theme
@@ -231,38 +251,41 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF1E1E1E),
       foregroundColor: Colors.white,
-      elevation: 0,
+      elevation: 4,
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
+      shadowColor: Colors.black54,
     ),
 
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Color(0xFF1E1E1E),
+      backgroundColor: Color(0xFF2D2D2D),
       selectedItemColor: lightGreen,
       unselectedItemColor: Colors.grey,
       type: BottomNavigationBarType.fixed,
-      elevation: 8,
+      elevation: 12,
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
     ),
 
     cardTheme: CardTheme(
-      elevation: 4,
+      elevation: 6,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      color: const Color(0xFF1E1E1E),
-      shadowColor: Colors.black.withOpacity(0.3),
+      color: const Color(0xFF2D2D2D),
+      shadowColor: Colors.black.withOpacity(0.4),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: lightGreen,
         foregroundColor: darkGray,
-        elevation: 4,
+        elevation: 8,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -271,6 +294,8 @@ class AppTheme {
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
+        shadowColor: lightGreen.withOpacity(0.4),
+        animationDuration: const Duration(milliseconds: 200),
       ),
     ),
 
@@ -369,6 +394,21 @@ class AppTheme {
         fontWeight: FontWeight.normal,
         color: Colors.grey,
         height: 1.4,
+      ),
+    ),
+
+    // Add snackbar theme for better feedback
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: Color(0xFF2D2D2D),
+      contentTextStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
+      actionTextColor: lightGreen,
+      elevation: 6,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     ),
   );

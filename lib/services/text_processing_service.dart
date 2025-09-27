@@ -7,8 +7,14 @@ class TextProcessingService {
     String cleaned = text.trim();
     cleaned = cleaned.replaceAll(RegExp(r'\s+'), ' ');
     
+    // Remove special characters that are unlikely to be in ingredient lists
+    cleaned = cleaned.replaceAll(RegExp(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]'), '');
+    
     // Fix common OCR errors
     cleaned = _fixCommonOCRErrors(cleaned);
+    
+    // Remove excessive punctuation
+    cleaned = cleaned.replaceAll(RegExp(r'[\*\^\~\`\|\\]+'), '');
     
     return cleaned;
   }
@@ -159,9 +165,16 @@ class TextProcessingService {
       RegExp(r'^may contain\s*\$', caseSensitive: false),
       RegExp(r'^allergen\s*\$', caseSensitive: false),
       RegExp(r'^\d+\s*(g|mg|kg|oz|lb)\s*\$', caseSensitive: false),
+      // Exclude random characters or symbols
+      RegExp(r'^[\W\d]+\$'),
     ];
     
-    return !excludePatterns.any((pattern) => pattern.hasMatch(ingredient));
+    // Check for very short strings with mostly symbols separately
+    final hasValidChars = RegExp(r'^[a-zA-Z\s]+\$').hasMatch(ingredient);
+    final isTooShortWithSymbols = RegExp(r'^.{1,3}\$').hasMatch(ingredient) && !hasValidChars;
+    
+    final anyPatternMatches = excludePatterns.any((pattern) => pattern.hasMatch(ingredient));
+    return !anyPatternMatches && !isTooShortWithSymbols;
   }
 
   /// Remove duplicate ingredients while preserving order

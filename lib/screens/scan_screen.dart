@@ -82,7 +82,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Widget _buildInstructionsCard() {
     return Card(
-      elevation: 2,
+      elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -94,15 +94,22 @@ class _ScanScreenState extends State<ScanScreen> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryGreen.withOpacity(0.1),
+                    color: AppTheme.primaryGreen.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primaryGreen.withOpacity(0.1),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Icon(
                     Icons.info_outline, 
                     color: AppTheme.primaryGreen,
-                    size: 24,
+                    size: 28,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -115,7 +122,7 @@ class _ScanScreenState extends State<ScanScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             _buildInstructionStep(1, 'Take a clear photo of the ingredient label', Icons.camera_alt_rounded),
             _buildInstructionStep(2, 'Ensure good lighting and focus', Icons.light_mode_rounded),
             _buildInstructionStep(3, 'Wait for analysis to complete', Icons.hourglass_bottom_rounded),
@@ -128,35 +135,43 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Widget _buildInstructionStep(int number, String text, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
           Container(
-            width: 32,
-            height: 32,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
-              color: AppTheme.primaryGreen.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(16),
+              color: AppTheme.primaryGreen.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.primaryGreen.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Center(
               child: Text(
                 '$number',
                 style: TextStyle(
                   color: AppTheme.primaryGreen,
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
           const SizedBox(width: 16),
-          Icon(icon, color: AppTheme.mediumGray, size: 20),
-          const SizedBox(width: 12),
+          Icon(icon, color: AppTheme.primaryGreen, size: 24),
+          const SizedBox(width: 16),
           Expanded(
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                height: 1.4,
+                height: 1.5,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -377,6 +392,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
+      _showSnackbar('Selecting image...', backgroundColor: AppTheme.primaryGreen);
+      
       final XFile? image = await _picker.pickImage(
         source: source,
         maxWidth: 1024,
@@ -389,9 +406,13 @@ class _ScanScreenState extends State<ScanScreen> {
           _selectedImage = File(image.path);
           _scanResult = null; // Clear previous results
         });
+        _showSuccess('Image selected successfully!');
+      } else {
+        _showWarning('No image selected.');
       }
     } catch (e) {
       _showErrorDialog('Failed to pick image: $e');
+      _showError('Failed to select image. Please try again.');
     }
   }
 
@@ -406,6 +427,16 @@ class _ScanScreenState extends State<ScanScreen> {
     try {
       // Step 1: Real OCR Text Extraction
       final extractedText = await OCRService.extractIngredientsText(_selectedImage!);
+      
+      // Check if we got any text
+      if (extractedText.trim().isEmpty) {
+        setState(() {
+          _isProcessing = false;
+          _processingStep = '';
+        });
+        _showError('No text could be extracted from the image. Please try another image.');
+        return;
+      }
       
       setState(() {
         _processingStep = 'Processing and cleaning text...';
@@ -441,12 +472,20 @@ class _ScanScreenState extends State<ScanScreen> {
         _processingStep = '';
       });
       
+      // Show success message based on results
+      if (harmfulIngredients.isNotEmpty) {
+        _showWarning('Found ${harmfulIngredients.length} harmful ingredients!');
+      } else {
+        _showSuccess('No harmful ingredients found. This product appears safe!');
+      }
+      
     } catch (e) {
       setState(() {
         _isProcessing = false;
         _processingStep = '';
       });
-      _showErrorDialog('Failed to process image: $e');
+      _showErrorDialog('Failed to process image: ${e.toString()}');
+      _showError('Processing failed. Please try again with a clearer image.');
     }
   }
 
@@ -552,5 +591,33 @@ class _ScanScreenState extends State<ScanScreen> {
         );
       },
     );
+  }
+
+  /// Show a snackbar with the given message
+  void _showSnackbar(String message, {Color? backgroundColor}) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: backgroundColor,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
+  /// Show a success message
+  void _showSuccess(String message) {
+    _showSnackbar(message, backgroundColor: AppTheme.primaryGreen);
+  }
+
+  /// Show an error message
+  void _showError(String message) {
+    _showSnackbar(message, backgroundColor: AppTheme.highRisk);
+  }
+
+  /// Show a warning message
+  void _showWarning(String message) {
+    _showSnackbar(message, backgroundColor: AppTheme.moderateRisk);
   }
 }
